@@ -42,6 +42,8 @@ end
 
 get '/sample' do
     'しごとたのしー♪───Ｏ（≧∇≦）Ｏ────♪'
+    slim :login
+    slim :notlogin
 end
 
 get '/login' do
