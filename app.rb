@@ -5,6 +5,7 @@ require 'sinatra'
 require 'slim'
 require 'pp'
 require 'twitter_oauth'
+require 'twitter'
 
 # enable session
 set :session, true
@@ -22,6 +23,12 @@ before do
         :token => session[:access_token],
         :secret => session[:secret_token],
     )
+    Twitter.configure do |config|
+        config.consumer_key = KEY
+        config.consumer_secret = SECRET
+        config.oauth_token = session[:access_token]
+        config.oauth_token_secret = session[:secret_token]
+    end
 end
 
 def base_url
@@ -34,6 +41,7 @@ get '/' do
     if session[:login]
         @screen_name = @twitter.info['screen_name']
         @image_url = @twitter.info['profile_image_url_https']
+        Twitter.update( 'しごとたのしー♪───Ｏ（≧∇≦）Ｏ────♪')
         slim :login
     else
         slim :notlogin
@@ -51,8 +59,6 @@ get '/login' do
     request_token = @twitter.request_token(
         :oauth_callback => callback_url
     )
-
-    p request_token.token, request_token.secret
 
     session[:request_token] = request_token.token
     session[:request_token_secret] = request_token.secret
