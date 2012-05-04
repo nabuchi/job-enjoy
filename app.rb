@@ -7,6 +7,8 @@ require 'pp'
 require 'twitter_oauth'
 require 'twitter'
 
+TANOSII = 'しごとたのしー♪───Ｏ（≧∇≦）Ｏ────♪'
+
 # enable session
 set :session, true
 
@@ -41,7 +43,7 @@ get '/' do
     if session[:login]
         @screen_name = @twitter.info['screen_name']
         @image_url = @twitter.info['profile_image_url_https']
-        Twitter.update( 'しごとたのしー♪───Ｏ（≧∇≦）Ｏ────♪')
+        Twitter.update(TANOSII)
         slim :login
     else
         slim :notlogin
@@ -49,7 +51,7 @@ get '/' do
 end
 
 get '/sample' do
-    'しごとたのしー♪───Ｏ（≧∇≦）Ｏ────♪'
+    TANOSII
     slim :notlogin
     slim :login
 end
